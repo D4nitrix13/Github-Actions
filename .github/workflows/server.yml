@@ -1,4 +1,4 @@
-name: Server
+name: Hello World
 
 on:
   push:
@@ -16,3 +16,4 @@ jobs:
       - name: Print The Date
         run: |
           date
+      - run: ls -lAh
