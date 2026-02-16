@@ -1,27 +1,15 @@
-# Autor: Daniel Benjamin Perez Morales
-# GitHub: https://github.com/D4nitrix13
-# GitLab: https://gitlab.com/D4nitrix13
-# Correo electrónico: danielperezdev@proton.me
-
-# Debe tener un nombre puede aceptar espacios EJemplo App Server o simplemente nomral ejemplo Server
 name: Server
 
-# tenemos que decir el evento ejemplo cuando se hacer push la sintaxis seria
 on:
   push:
     branches:
       - master
 
-# indicarle el trabajo darle un nombre
 jobs:
   hello_world:
     runs-on: ubuntu-18.04
-    # indicarle los pasos
+
     steps:
       - name: Echo the message
-        # hay varias maneras ejemplos de hacerlo. ejemplo 1: run: echo Hello World o otra manera seria
-        # le indicamos el caracter | que seignifi8ca y nos permite
-        # run: |
-        #   echo "Hello World"
         run: |
           echo "Hello World"
