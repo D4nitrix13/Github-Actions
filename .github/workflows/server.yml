@@ -13,3 +13,6 @@ jobs:
       - name: Echo the message
         run: |
           echo "Hello World"
+      - name: Print The Date
+        run: |
+          date
