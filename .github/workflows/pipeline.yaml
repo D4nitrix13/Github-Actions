@@ -22,7 +22,7 @@ jobs:
         run: uv sync --frozen
 
       - name: Execute Ruff Linter (Code Quality Enforcement)
-        run: uv run ruff .
+        run: uv run ruff check .
 
       - name: Execute MyPy Static Type Checker
         run: uv run mypy .
