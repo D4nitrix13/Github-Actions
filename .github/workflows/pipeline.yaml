@@ -1,0 +1,29 @@
+name: Python Static Analysis and Type Validation
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+
+jobs:
+  static-code-quality-checks:
+    name: Run Linting and Static Type Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository Source Code
+        uses: actions/checkout@v4
+
+      - name: Install uv Dependency Manager
+        uses: astral-sh/setup-uv@v7
+
+      - name: Synchronize Project Dependencies (Locked)
+        run: uv sync --frozen
+
+      - name: Execute Ruff Linter (Code Quality Enforcement)
+        run: uv run ruff .
+
+      - name: Execute MyPy Static Type Checker
+        run: uv run mypy .
