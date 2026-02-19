@@ -1,0 +1,44 @@
+name: PostgreSQL Integration Test (Workflow Environment Variables)
+
+on:
+  workflow_dispatch:
+
+env:
+  DB_USER: workflow_user
+  DB_PASSWORD: workflow_password
+  DB_NAME: workflow_db
+  DB_HOST: localhost
+  DB_PORT: 5432
+
+jobs:
+  postgres-env-connection:
+    name: Connect to PostgreSQL Using Workflow Env
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: ${{ env.DB_USER }}
+          POSTGRES_PASSWORD: ${{ env.DB_PASSWORD }}
+          POSTGRES_DB: ${{ env.DB_NAME }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U ${{ env.DB_USER }}"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Install PostgreSQL Client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Test Connection with Workflow Env
+        run: |
+          PGPASSWORD=${{ env.DB_PASSWORD }} psql \
+          -h ${{ env.DB_HOST }} \
+          -U ${{ env.DB_USER }} \
+          -d ${{ env.DB_NAME }} \
+          -c "SELECT current_database();"
