@@ -1,0 +1,37 @@
+name: PostgreSQL Integration Test (Explicit Environment Variables)
+
+on:
+    workflow_dispatch:
+
+jobs:
+    postgres-explicit-connection:
+        name: Connect to PostgreSQL Using Explicit Variables
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+
+        services:
+            postgres:
+                image: postgres:latest
+                env:
+                    POSTGRES_USER: zeus
+                    POSTGRES_PASSWORD: root
+                    POSTGRES_DB: store
+                ports:
+                    - 5432:5432
+                options: >-
+                    --health-cmd="pg_isready -U zeus"
+                    --health-interval=10s
+                    --health-timeout=5s
+                    --health-retries=5
+
+        steps:
+            - name: Install PostgreSQL Client
+              run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+            - name: Test Connection with Explicit Variables
+              run: |
+                  PGPASSWORD=root psql \
+                  -h localhost \
+                  -U zeus \
+                  -d store \
+                  -c "SELECT version();"
