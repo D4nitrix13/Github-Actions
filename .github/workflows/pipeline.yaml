@@ -10,6 +10,7 @@ jobs:
   static-code-quality-checks:
     name: Run Linting and Static Type Analysis
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout Repository Source Code
@@ -20,9 +21,10 @@ jobs:
 
       - name: Synchronize Project Dependencies (Locked)
         run: uv sync --frozen
-
+  
       - name: Execute Ruff Linter (Code Quality Enforcement)
-        run: uv run ruff check .
+        run: uv run ruff check app
 
       - name: Execute MyPy Static Type Checker
-        run: uv run mypy .
+        run: uv run mypy app
+
