@@ -1,0 +1,28 @@
+name: Python Test Suite Execution
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  unit-and-integration-tests:
+    name: Run Pytest Unit Tests with Coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout Repository Source Code
+        uses: actions/checkout@v4
+
+      - name: Install uv Dependency Manager
+        uses: astral-sh/setup-uv@v7
+
+      - name: Synchronize Project Dependencies (Locked)
+        run: uv sync --frozen
+
+      - name: Execute Pytest Test Suite
+        run: uv run pytest -q
+
+      - name: Generate Coverage Report
+        run: uv run pytest --cov=. --cov-report=term-missing -q

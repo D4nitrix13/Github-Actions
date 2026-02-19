@@ -1,10 +1,9 @@
 from typing import Dict, List
 from uuid import uuid4
-
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel, EmailStr
 
-app = FastAPI()
+app: FastAPI = FastAPI()
 
 # -----------------------------
 # In-Memory Storage (Fake DB)

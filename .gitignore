@@ -1,0 +1,9 @@
+# Ignorar todos los __pycache__ en cualquier subdirectorio
+__pycache__/
+
+# Ignorar todos los archivos compilados de Python en cualquier nivel
+*.py[cod]
+
+# Ignorar archivo de coverage en la raíz o subdirectorios
+.coverage
+.coverage.*
