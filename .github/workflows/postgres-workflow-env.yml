@@ -23,7 +23,6 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          # 👇 aquí valores literales, sin ${{ env.* }}
           POSTGRES_USER: workflow_user
           POSTGRES_PASSWORD: workflow_password
           POSTGRES_DB: workflow_db

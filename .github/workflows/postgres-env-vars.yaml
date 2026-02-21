@@ -1,0 +1,43 @@
+name: PostgreSQL Integration Test (Repository Vars)
+
+on:
+    push:
+        branches:
+            - master
+    workflow_dispatch:
+
+jobs:
+    postgres-env-vars:
+        runs-on: ubuntu-latest
+
+        env:
+            DB_USER: ${{ vars.DB_USER }}
+            DB_PASSWORD: ${{ vars.DB_PASSWORD }}
+            DB_NAME: ${{ vars.DB_NAME }}
+            DB_HOST: ${{ vars.DB_HOST }}
+            DB_PORT: ${{ vars.DB_PORT }}
+
+        services:
+            postgres:
+                image: postgres:latest
+                env:
+                    POSTGRES_USER: ${{ vars.DB_USER }}
+                    POSTGRES_PASSWORD: ${{ vars.DB_PASSWORD }}
+                    POSTGRES_DB: ${{ vars.DB_NAME }}
+                ports:
+                    - 5432:5432
+                options: >-
+                    --health-cmd="pg_isready -U ${{ vars.DB_USER }}"
+                    --health-interval=10s
+                    --health-timeout=5s
+                    --health-retries=5
+
+        steps:
+            - name: Install PostgreSQL Client
+              run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+            - name: Test Connection
+              run: |
+                  export PGPASSWORD="$DB_PASSWORD"
+                  psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" \
+                    -c "SELECT current_database();"
