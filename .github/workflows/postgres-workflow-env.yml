@@ -1,6 +1,9 @@
 name: PostgreSQL Integration Test (Workflow Environment Variables)
 
 on:
+  push:
+    branches:
+      - master
   workflow_dispatch:
 
 env:
