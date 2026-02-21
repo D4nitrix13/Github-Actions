@@ -23,13 +23,14 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_USER: ${{ env.DB_USER }}
-          POSTGRES_PASSWORD: ${{ env.DB_PASSWORD }}
-          POSTGRES_DB: ${{ env.DB_NAME }}
+          # 👇 aquí valores literales, sin ${{ env.* }}
+          POSTGRES_USER: workflow_user
+          POSTGRES_PASSWORD: workflow_password
+          POSTGRES_DB: workflow_db
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U ${{ env.DB_USER }}"
+          --health-cmd="pg_isready -U workflow_user"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
